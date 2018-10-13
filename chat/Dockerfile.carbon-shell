@@ -1,0 +1,16 @@
+
+FROM alpine/git
+WORKDIR /app
+RUN git clone https://github.com/socketio/socket.io.git
+
+FROM node:carbon-alpine
+WORKDIR /app
+COPY --from=0 /app/socket.io /app
+
+ENV env production
+RUN npm install --only=${env}
+WORKDIR  /app/examples/chat
+RUN npm install --only=${env}
+
+EXPOSE 3000
+CMD npm start

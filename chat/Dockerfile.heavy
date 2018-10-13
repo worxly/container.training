@@ -1,0 +1,14 @@
+
+FROM node:carbon-stretch
+
+RUN apt-get install git -y
+WORKDIR /app
+RUN git clone https://github.com/socketio/socket.io.git
+
+WORKDIR /app
+RUN npm install --only=production
+WORKDIR  /app/examples/chat
+RUN npm install --only=production
+
+EXPOSE 3000
+CMD [ "npm", "start" ]
